@@ -27,4 +27,19 @@ export class ProductService {
 
     return product;
   }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async create(newProduct: any) {
+    const product = {
+      id: this.products.length + 1,
+      name: newProduct.name,
+      price: newProduct.price,
+      discount: newProduct.discount,
+      description: newProduct.description || '',
+    };
+
+    this.products.push(product);
+
+    return product;
+  }
 }
