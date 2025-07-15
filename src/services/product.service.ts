@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { log } from 'console';
 
 @Injectable()
 export class ProductService {
@@ -39,6 +40,35 @@ export class ProductService {
     };
 
     this.products.push(product);
+
+    return product;
+  }
+
+  async delete(id: number) {
+    const index = this.products.findIndex((p) => p.id === id);
+
+    // fonction aussi avec index == -1
+    if (index < 0) {
+      throw new Error('Produit non trouvé!');
+    }
+
+    const deleted = this.products.splice(index, 1)[0];
+    return deleted;
+  }
+
+  async update(updatedProduct: any) {
+    const product = this.products.find((p) => p.id === updatedProduct.id);
+
+    if (!product) {
+      throw new Error('Produit non trouvé!');
+    }
+    product.name = updatedProduct.name || product.name;
+    product.price = updatedProduct.price || product.price;
+    product.discount = updatedProduct.discount || product.discount;
+
+    if (updatedProduct.description !== undefined) {
+      product.description = updatedProduct.description;
+    }
 
     return product;
   }
